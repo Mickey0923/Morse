@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .content {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+        
+        .box {
+            border: 1px solid #ccc;
+            margin-top: 30px;
+            padding: 12px 16px;
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+        }
+        
+        .box .l {
+            color: #f60;
+        }
+    </style>
+</head>
+
+<body>
+    <input type="text" id='inp'>
+    <div class="content"></div>
+    <div class="content2"></div>
+    <script>
+        let morse = {
+            A: '._',
+            B: '_...',
+            C: '_._.',
+            D: '_..',
+            E: '.',
+            F: '.._.',
+            G: '__.',
+            H: '....',
+            I: '..',
+            J: '.___',
+            K: '_._',
+            L: '._..',
+            M: '.__',
+            N: '._.',
+            O: '.___',
+            P: '.__.',
+            Q: '__._',
+            R: '._.',
+            S: '...',
+            T: '_',
+            U: '.._',
+            V: '..._',
+            W: '.__',
+            X: '._.._',
+            Y: '._.__',
+            Z: '__..',
+            0: "_____",
+            1: ".____",
+            2: "..___",
+            3: "...__",
+            4: "...._",
+            5: ".....",
+            6: "_...",
+            7: "__...",
+            8: ".___..",
+            9: "___.",
+            '?': "..__..",
+            '/': "_.._.",
+            '()': "_.__._",
+        }
+        window.onload = function() {
+            let inp = document.querySelector('#inp')
+            let content = document.querySelector('.content')
+            let content2 = document.querySelector('.content2')
+            inp.oninput = function(e) {
+                console.log(e.target.value)
+                let value = e.target.value;
+                let splitValue = value.split("");
+                let _html = []
+                let _html2 = []
+                splitValue.map(item => {
+                    let itemUp = item.toUpperCase()
+                    if (morse[itemUp]) {
+                        _html.push({
+                            key: itemUp,
+                            value: morse[itemUp]
+                        })
+                        _html2.push(morse[itemUp])
+                    }
+                })
+                let _text = ''
+                _html.map(item => {
+                    _text += `
+                    <div class='box'>
+                        <div class="l">${item.key}：</div>
+                        <div class="r">${item.value}</div>
+                    </div>
+                    `;
+
+                })
+                content.innerHTML = _text
+                content2.innerHTML = _html2.join('  ')
+                console.log(_html)
+
+            }
+        }
+    </script>
+</body>
+
+</html>
