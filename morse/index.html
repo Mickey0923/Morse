@@ -67,7 +67,7 @@
         .wrap {
             display: grid;
             align-items: center;
-            grid: auto / 1fr 80px;
+            grid: auto / 1fr 80px 80px;
             justify-content: space-between;
             margin-bottom: 20px;
         }
@@ -92,6 +92,7 @@
     <div class="wrap">
         <input type="text" id="inp" />
         <span id="copy">复制</span>
+        <span id="convert">转文字</span>
     </div>
     <div class="content"></div>
     <div class="turning"></div>
@@ -99,45 +100,48 @@
     <script src="1.js"></script>
     <script>
         let morse = {
-            A: "._",
-            B: "_...",
-            C: "_._.",
-            D: "_..",
+            A: ".-",
+            B: "-...",
+            C: "-.-.",
+            D: "-..",
             E: ".",
-            F: ".._.",
-            G: "__.",
+            F: "..-.",
+            G: "--.",
             H: "....",
             I: "..",
-            J: ".___",
-            K: "_._",
-            L: "._..",
-            M: ".__",
-            N: "._.",
-            O: ".___",
-            P: ".__.",
-            Q: "__._",
-            R: "._.",
+            J: ".---",
+            K: "-.-",
+            L: ".-..",
+            M: "--",
+            N: "-.",
+            O: "---",
+            P: ".--.",
+            Q: "--.-",
+            R: ".-.",
             S: "...",
-            T: "_",
-            U: ".._",
-            V: "..._",
-            W: ".__",
-            X: "._.._",
-            Y: "._.__",
-            Z: "__..",
-            0: "_____",
-            1: ".____",
-            2: "..___",
-            3: "...__",
-            4: "...._",
+            T: "-",
+            U: "..-",
+            V: "...-",
+            W: ".--",
+            X: "-..-",
+            Y: "-.--",
+            Z: "--..",
+            0: "-----",
+            1: ".----",
+            2: "..---",
+            3: "...--",
+            4: "....-",
             5: ".....",
-            6: "_...",
-            7: "__...",
-            8: ".___..",
-            9: "___.",
-            "?": "..__..",
-            "/": "_.._.",
-            "()": "_.__._",
+            6: "-....",
+            7: "--...",
+            8: "---..",
+            9: "----.",
+            ",": "--..--",
+            "?": "..--..",
+            "!": "..--.",
+            ":": "---...",
+            "/": "-..-.",
+            "()": "-.--.-",
         };
         window.onload = function() {
             let inp = document.querySelector("#inp");
@@ -145,20 +149,16 @@
             let content = document.querySelector(".content");
             let content2 = document.querySelector(".content2");
             let turning = document.querySelector(".turning");
+            let convert = document.querySelector("#convert");
             inp.oninput = function(e) {
                 copy.innerHTML = "复制";
                 let value = e.target.value;
-                if (!value) {
-                    turning.style.display = "none";
-                } else {
-                    turning.style.display = "block";
-                }
+
                 //全拼
                 var fullName = pinyin.getFullChars(value);
                 //获取简写拼音（调用js中方法）
                 var easyName = pinyin.getCamelChars(value);
-                // console.log(fullName);
-                // console.log(easyName);
+
                 let splitValue = fullName.split("");
                 let _html = [];
                 let _html2 = [];
@@ -183,6 +183,11 @@
                 });
                 content.innerHTML = _text;
                 content2.innerHTML = _html2.join("&nbsp;&nbsp;&nbsp;&nbsp;");
+                if (!value || !content2.innerHTML) {
+                    turning.style.display = "none";
+                } else {
+                    turning.style.display = "block";
+                }
             };
 
             function copyValue(v) {
@@ -201,6 +206,21 @@
                 let filterValue = content2.innerHTML.replace(re, "");
                 copyValue(filterValue.replace(ret, " "));
                 copy.innerHTML = "已复制";
+            };
+            convert.onclick = function() {
+                let arr = inp.value.split(/\s+/);
+                console.log(arr);
+                let morseConvert = [];
+                arr.map(item => {
+                    for (let m in morse) {
+                        if (item == morse[m]) {
+                            morseConvert.push(m);
+                        }
+                    }
+                });
+                if (morseConvert) {
+                    content2.innerHTML = morseConvert.join("&nbsp;");
+                }
             };
         };
     </script>
