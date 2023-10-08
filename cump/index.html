@@ -4,7 +4,7 @@
  * @Author       : Mickey
  * @Date         : 2023-10-08 14:17:59
  * @LastEditors  : Mickey
- * @LastEditTime : 2023-10-08 16:06:32
+ * @LastEditTime : 2023-10-08 16:27:59
  * @FilePath     : \\undefinedd:\\Mickeys\\MY_Github\\cump\\index.html
  * Copyright (C) 2023 Mickey. All rights reserved.
 -->
@@ -24,7 +24,14 @@
         }
 
         #box {
-            min-height: 600px;
+            display: grid;
+            grid: auto / 1fr 1fr 1fr;
+        }
+
+        @media only screen and (max-width: 800px) {
+            #box {
+                grid: auto / 1fr;
+            }
         }
 
         #box>div {
@@ -51,6 +58,7 @@
             margin-right: 6px;
             padding-left: 6px;
             outline: 0;
+            width: 57%;
         }
 
         #box .inp2 {
@@ -93,10 +101,12 @@
             display: -ms-flexbox;
             display: flex;
             align-items: center;
+            align-items: center;
+            justify-content: space-between;
         }
 
         .fee #addName {
-            width: 90%!important;
+            width: 50%!important;
         }
 
         .fee .feeBox {
@@ -115,8 +125,14 @@
             grid-gap: 12px;
             grid: auto / 1fr;
             max-width: 800px;
+            padding: 10px;
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0px;
+            z-index: 99;
             margin: auto;
-            padding: 0 10px;
+            background: #fff;
         }
 
         .footer * {
@@ -176,8 +192,10 @@
     <div id="box">
     </div>
     <div id="total"></div>
+    <div style="height:330px"></div>
     <div class="footer">
         <div class="fee">
+            名称：
             <input id="addName"></input>
             <div class="feeBox">
                 <span>费率：</span>
@@ -187,8 +205,8 @@
         <button onclick='add()' id="add">添加</button>
         <button onclick='cump()' id="add">计算(费率)</button>
         <button onclick='cump(true)' id="add">计算(原价)</button>
-        <button onclick='getList()' id="add">获取历史</button>
         <button onclick='save()' id="add">保存本地</button>
+        <button onclick='getList()' id="add">获取历史</button>
     </div>
     <script>
         let fee_ = 0.92;
@@ -202,9 +220,11 @@
             let div3 = document.createElement('input');
             div.type = 'number';
             div.className = 'inp';
+            div.placeholder = '请输入价格';
             div.oninput = function() {
                 div.className = 'inp ' + getMoneyClassName(div.value)
             }
+            div2.innerText = addName.value;
             div3.className = 'inp2';
             div3.value = 1;
             if (addName.value == '') return;
@@ -212,13 +232,14 @@
             div1.appendChild(div2)
             div1.appendChild(div)
             div1.appendChild(div3)
-            div2.innerText = addName.value;
             box.appendChild(div1)
         }
 
         function getList() {
             let list = localStorage.getItem("list")
             if (list) {
+                let box_ = document.getElementById('box');
+                box_.innerHTML = ''
                 list = JSON.parse(list)
                 for (let i = 0; i < list.length; i++) {
                     let box = document.getElementById('box');
@@ -229,6 +250,7 @@
                     let div3 = document.createElement('input');
                     div.value = list[i].price;
                     div.type = 'number';
+                    div.placeholder = '请输入价格';
                     div.className = 'inp ' + getMoneyClassName(div.value);
                     div.oninput = function() {
                         div.className = 'inp ' + getMoneyClassName(div.value)
@@ -290,6 +312,8 @@
         }
 
         function save() {
+            let localList = localStorage.getItem('list');
+            if (localList && !confirm('是否覆盖？')) return
             let box = document.getElementById('box');
             let total = document.getElementById('total');
             let fee = document.getElementById('feeInp');
@@ -351,4 +375,13 @@
 </html>
 
 </html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
 </html>
