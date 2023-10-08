@@ -1,0 +1,281 @@
+<!--
+ * @Description  :
+ * @Version      : 1.0
+ * @Author       : Mickey
+ * @Date         : 2023-10-08 14:17:59
+ * @LastEditors  : Mickey
+ * @LastEditTime : 2023-10-08 15:21:56
+ * @FilePath     : \\undefinedc:\\Users\\Thinkpad\\Desktop\\价格计算.html
+ * Copyright (C) 2023 Mickey. All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #box {
+            min-height: 600px;
+        }
+
+        #box>div {
+            margin-left: 10px;
+            margin-bottom: 10px;
+        }
+
+        #box>div>span {
+            display: inline-block;
+            height: 30px;
+            line-height: 30px;
+            margin-right: 8px;
+            width: 100px;
+        }
+
+        #box .inp {
+            border: 1px solid #666;
+            width: 200px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+        }
+
+        #box .inp2 {
+            border: 1px solid #666;
+            width: 50px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            text-align: center;
+        }
+
+        #add {
+            width: 200px;
+            height: 34px;
+            line-height: 34px;
+            border-radius: 5px;
+            border: 1px solid #999;
+            background-color: #999;
+            color: #fff;
+            font-size: 16px;
+            cursor: pointer;
+        }
+
+        #addName {
+            border: 1px solid #666;
+            width: 200px;
+            height: 30px;
+            line-height: 30px;
+            border-radius: 5px;
+            margin-right: 10px;
+        }
+
+        .footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        #total {
+            font-size: 40px;
+            text-align: center;
+        }
+
+        .money-default {
+            color: #999
+        }
+
+        .money-gold {
+            color: #f4b757
+        }
+
+        .money-green {
+            color: #5eff5e
+        }
+
+        .money-blue {
+            color: #5fffff
+        }
+
+        .money-yellow {
+            color: #fffc49;
+            text-shadow: 0 0 1px #000
+        }
+
+        .money-purple {
+            color: #FF00FF;
+        }
+
+        .money-light_green {
+            color: #99FF00;
+        }
+
+        .money-deep_blue {
+            color: #959cf6;
+        }
+
+        .money-pink {
+            color: #FF00CC;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="box">
+    </div>
+    <div id="total"></div>
+    <div class="footer">
+        <input id="addName"></input>
+        <button onclick='add()' id="add">添加</button>
+        <button onclick='cump()' id="add">计算</button>
+        <button onclick='getList()' id="add">获取历史</button>
+        <button onclick='cump(true)' id="add">计算(原价)</button>
+        <button onclick='save()' id="add">保存本地</button>
+    </div>
+    <script>
+        let fee = 0.92;
+
+        function add() {
+            let box = document.getElementById('box');
+            let addName = document.getElementById('addName');
+            let div1 = document.createElement('div');
+            let div2 = document.createElement('span');
+            let div = document.createElement('input');
+            let div3 = document.createElement('input');
+            div.type = 'number';
+            div.className = 'inp';
+            div.oninput = function() {
+                div.className = 'inp ' + getMoneyClassName(div.value)
+            }
+            div3.className = 'inp2';
+            div3.value = 1;
+            if (addName.value == '') return;
+
+            div1.appendChild(div2)
+            div1.appendChild(div)
+            div1.appendChild(div3)
+            div2.innerText = addName.value;
+            box.appendChild(div1)
+        }
+
+        function getList() {
+            let list = localStorage.getItem("list")
+            if (list) {
+                list = JSON.parse(list)
+                for (let i = 0; i < list.length; i++) {
+                    let box = document.getElementById('box');
+                    let addName = document.getElementById('addName');
+                    let div1 = document.createElement('div');
+                    let div2 = document.createElement('span');
+                    let div = document.createElement('input');
+                    let div3 = document.createElement('input');
+                    div.value = list[i].price;
+                    div.type = 'number';
+                    div.className = 'inp ' + getMoneyClassName(div.value);
+                    div.oninput = function() {
+                        div.className = 'inp ' + getMoneyClassName(div.value)
+                    }
+                    div2.innerText = list[i].name;
+                    div3.className = 'inp2';
+                    div3.value = list[i].count;
+
+                    div1.appendChild(div2)
+                    div1.appendChild(div)
+                    div1.appendChild(div3)
+                    box.appendChild(div1)
+                }
+            }
+
+        }
+
+        function getMoneyClassName(t) {
+            return (
+                "money-" +
+                (t >= 1e11 ?
+                    "pink" :
+                    t >= 1e10 ?
+                    "deep_blue" :
+                    t >= 1e9 ?
+                    "gold" :
+                    t >= 1e8 ?
+                    "green" :
+                    t >= 1e7 ?
+                    "blue" :
+                    t >= 1e6 ?
+                    "yellow" :
+                    t >= 1e5 ?
+                    "purple" :
+                    t >= 1e4 ?
+                    "light_green" :
+                    "default")
+            );
+        }
+
+        function cump(value) {
+            let box = document.getElementById('box');
+            let total = document.getElementById('total');
+            let sum = 0;
+            for (let i = 0; i < box.children.length; i++) {
+                let div = box.children[i];
+                let inp = div.children[1];
+                let inp2 = div.children[2];
+                if (!value) {
+                    sum += inp.value * inp2.value * fee;
+                } else {
+                    sum += inp.value * inp2.value
+
+                }
+            }
+            total.className = getMoneyClassName(sum)
+            total.innerText = sum.toFixed();
+        }
+
+        function save() {
+            let box = document.getElementById('box');
+            let total = document.getElementById('total');
+            let sum = 0;
+            let arr = []
+            for (let i = 0; i < box.children.length; i++) {
+                let div = box.children[i];
+                let inp = div.children[1];
+                let inp2 = div.children[2];
+                arr.push({
+                    name: div.children[0].innerText,
+                    price: div.children[1].value,
+                    count: div.children[2].value
+                })
+                sum += inp.value * inp2.value * fee;
+            }
+            localStorage.setItem("list", JSON.stringify(arr));
+            localStorage.setItem("total", sum);
+        }
+    </script>
+</body>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
