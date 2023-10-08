@@ -4,8 +4,8 @@
  * @Author       : Mickey
  * @Date         : 2023-10-08 14:17:59
  * @LastEditors  : Mickey
- * @LastEditTime : 2023-10-08 15:21:56
- * @FilePath     : \\undefinedc:\\Users\\Thinkpad\\Desktop\\价格计算.html
+ * @LastEditTime : 2023-10-08 16:00:23
+ * @FilePath     : \\undefinedd:\\Mickeys\\MY_Github\\cump\\index.html
  * Copyright (C) 2023 Mickey. All rights reserved.
 -->
 <!DOCTYPE html>
@@ -17,6 +17,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
         #box {
             min-height: 600px;
         }
@@ -24,6 +30,7 @@
         #box>div {
             margin-left: 10px;
             margin-bottom: 10px;
+            display: flex;
         }
 
         #box>div>span {
@@ -32,6 +39,7 @@
             line-height: 30px;
             margin-right: 8px;
             width: 100px;
+            color: #333;
         }
 
         #box .inp {
@@ -40,6 +48,9 @@
             height: 30px;
             line-height: 30px;
             border-radius: 5px;
+            margin-right: 6px;
+            padding-left: 6px;
+            outline: 0;
         }
 
         #box .inp2 {
@@ -49,6 +60,8 @@
             line-height: 30px;
             border-radius: 5px;
             text-align: center;
+            color: #666;
+            outline: 0;
         }
 
         #add {
@@ -56,26 +69,56 @@
             height: 34px;
             line-height: 34px;
             border-radius: 5px;
-            border: 1px solid #999;
-            background-color: #999;
+            border: 1px solid #f4b757;
+            background-color: #f4b757;
             color: #fff;
             font-size: 16px;
             cursor: pointer;
         }
 
-        #addName {
+        #addName,
+        #feeInp {
             border: 1px solid #666;
             width: 200px;
             height: 30px;
             line-height: 30px;
             border-radius: 5px;
-            margin-right: 10px;
+            padding-left: 6px;
+            outline: 0;
+        }
+
+        .fee {
+            display: -webkit-box;
+            display: -webkit-flex;
+            display: -ms-flexbox;
+            display: flex;
+            align-items: center;
+        }
+
+        .fee #addName {
+            width: 90%!important;
+        }
+
+        .fee .feeBox {
+            display: flex;
+            width: 10%!important;
+            margin-left: 6px;
+        }
+
+        .fee .feeBox span {
+            line-height: 30px;
         }
 
         .footer {
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            display: grid;
+            grid-gap: 12px;
+            grid: auto / 1fr;
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .footer * {
+            width: 100%!important;
         }
 
         #total {
@@ -119,6 +162,11 @@
         .money-pink {
             color: #FF00CC;
         }
+
+        input::-webkit-outer-spin-button,
+        input::-webkit-inner-spin-button {
+            -webkit-appearance: none !important;
+        }
     </style>
 </head>
 
@@ -127,15 +175,21 @@
     </div>
     <div id="total"></div>
     <div class="footer">
-        <input id="addName"></input>
+        <div class="fee">
+            <input id="addName"></input>
+            <div class="feeBox">
+                <span>费率:</span>
+                <input id="feeInp" value="0.92"></input>
+            </div>
+        </div>
         <button onclick='add()' id="add">添加</button>
-        <button onclick='cump()' id="add">计算</button>
-        <button onclick='getList()' id="add">获取历史</button>
+        <button onclick='cump()' id="add">计算(费率)</button>
         <button onclick='cump(true)' id="add">计算(原价)</button>
+        <button onclick='getList()' id="add">获取历史</button>
         <button onclick='save()' id="add">保存本地</button>
     </div>
     <script>
-        let fee = 0.92;
+        let fee_ = 0.92;
 
         function add() {
             let box = document.getElementById('box');
@@ -216,13 +270,14 @@
         function cump(value) {
             let box = document.getElementById('box');
             let total = document.getElementById('total');
+            let fee = document.getElementById('feeInp');
             let sum = 0;
             for (let i = 0; i < box.children.length; i++) {
                 let div = box.children[i];
                 let inp = div.children[1];
                 let inp2 = div.children[2];
                 if (!value) {
-                    sum += inp.value * inp2.value * fee;
+                    sum += inp.value * inp2.value * (fee.value || fee_);
                 } else {
                     sum += inp.value * inp2.value
 
@@ -235,6 +290,7 @@
         function save() {
             let box = document.getElementById('box');
             let total = document.getElementById('total');
+            let fee = document.getElementById('feeInp');
             let sum = 0;
             let arr = []
             for (let i = 0; i < box.children.length; i++) {
@@ -246,13 +302,27 @@
                     price: div.children[1].value,
                     count: div.children[2].value
                 })
-                sum += inp.value * inp2.value * fee;
+                sum += inp.value * inp2.value * (fee.value || fee_);
             }
             localStorage.setItem("list", JSON.stringify(arr));
             localStorage.setItem("total", sum);
         }
     </script>
 </body>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
+
+</html>
 
 </html>
 
