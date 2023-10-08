@@ -4,7 +4,7 @@
  * @Author       : Mickey
  * @Date         : 2023-10-08 14:17:59
  * @LastEditors  : Mickey
- * @LastEditTime : 2023-10-08 16:27:59
+ * @LastEditTime : 2023-10-08 17:36:53
  * @FilePath     : \\undefinedd:\\Mickeys\\MY_Github\\cump\\index.html
  * Copyright (C) 2023 Mickey. All rights reserved.
 -->
@@ -211,6 +211,57 @@
     <script>
         let fee_ = 0.92;
 
+        let default_ = [{
+            "name": "神兵铸胚",
+            "price": "13498785",
+            "count": "11"
+        }, {
+            "name": "八荒遗风",
+            "price": "10125000",
+            "count": "194"
+        }, {
+            "name": "见闻录",
+            "price": "6744267",
+            "count": "19"
+        }, {
+            "name": "一级仙器",
+            "price": "265000000",
+            "count": "2"
+        }, {
+            "name": "终极技能书",
+            "price": "550000000",
+            "count": "1"
+        }, {
+            "name": "二级五行",
+            "price": "170000000",
+            "count": "1"
+        }, {
+            "name": "特殊元气丹",
+            "price": "200000000",
+            "count": "1"
+        }, {
+            "name": "超级福糕",
+            "price": "60000000",
+            "count": "15"
+        }, {
+            "name": "聚魄丹",
+            "price": "9500000",
+            "count": "18"
+        }, {
+            "name": "一级五行",
+            "price": "30000000",
+            "count": "9"
+        }, {
+            "name": "高级技能书",
+            "price": "120000000",
+            "count": "1"
+        }, {
+            "name": "五行灵珠",
+            "price": "410000",
+            "count": "950"
+        }]
+        window.default_ = default_;
+
         function add() {
             let box = document.getElementById('box');
             let addName = document.getElementById('addName');
@@ -233,10 +284,11 @@
             div1.appendChild(div)
             div1.appendChild(div3)
             box.appendChild(div1)
+            addName.value = ''
         }
 
         function getList() {
-            let list = localStorage.getItem("list")
+            let list = localStorage.getItem("list") || JSON.stringify(default_)
             if (list) {
                 let box_ = document.getElementById('box');
                 box_.innerHTML = ''
