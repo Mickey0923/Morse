@@ -1,0 +1,185 @@
+<!--
+ * @Description  :
+ * @Version      : 1.0
+ * @Author       : Mickey
+ * @Date         : 2022-08-18 10:22:42
+ * @LastEditors  : Mickey
+ * @LastEditTime : 2023-02-06 13:48:17
+ * @FilePath     : \\地腿腿c:\\Users\\Thinkpad\\Desktop\\新建文本文档 (16).html
+ * Copyright (C) 2023 Mickey. All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			* {
+				box-sizing: border-box;
+				margin: 0;
+				padding: 0;
+			}
+
+			.container {
+				border: 1px solid #999;
+				width: 90%;
+				margin: auto;
+				padding: 24px;
+				display: grid;
+				align-items: center;
+				grid: auto / repeat(5, 1fr);
+				justify-content: space-between;
+				grid-gap: 24px;
+			}
+
+			.txt {
+				margin-right: 8px;
+				width: 80px;
+			}
+
+			.box {
+				display: -webkit-box;
+				display: -webkit-flex;
+				display: -ms-flexbox;
+				display: flex;
+				align-items: center;
+			}
+
+			.inp {
+				border: none;
+				outline: 0;
+				height: 44px;
+				border: 1px solid #666;
+				width: 100%;
+			}
+
+			#total {
+				font-size: 72px;
+				margin-top: 120px;
+				text-align: center;
+				color: #f00;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<div class="box">
+				<div class="txt">基础</div>
+				<input type="number" class="inp" id="base" value="25828" />
+			</div>
+			<div class="box">
+				<div class="txt">忽视</div>
+				<input type="number" class="inp" id="ignore" value="132.1" />
+			</div>
+			<div class="box">
+				<div class="txt">强法</div>
+				<input type="number" class="inp" id="strengMana" value="37.8" />
+			</div>
+			<div class="box">
+				<div class="txt">自身五行</div>
+				<input type="number" class="inp" id="fiveSelf" value="100" />
+			</div>
+			<div class="box">
+				<div class="txt">上克</div>
+				<input type="number" class="inp" id="fiveElements" value="79" />
+			</div>
+			<div class="box">
+				<div class="txt">强克</div>
+				<input type="number" class="inp" id="strengGram" value="114.7" />
+			</div>
+			<div class="box">
+				<div class="txt">残梦</div>
+				<input type="number" class="inp" id="dream" value="1300" />
+			</div>
+			<div class="box">
+				<div class="txt">加深</div>
+				<input type="number" class="inp" id="deepen" value="1.914" />
+			</div>
+			<div class="box">
+				<label class="txt">
+					开启残梦
+					<input type="checkbox" name="" id="dreamCheck" />
+				</label>
+				<label class="txt">
+					开启狂暴
+					<input type="checkbox" name="" id="rage" checked="true" />
+				</label>
+			</div>
+			<div id="m"></div>
+		</div>
+		<div id="total"></div>
+
+		<script>
+			window.onload = () => {
+				let baseInp = document.getElementById("base");
+				let ignoreInp = document.getElementById("ignore");
+				let strengManaInp = document.getElementById("strengMana");
+				let fiveElementsInp = document.getElementById("fiveElements");
+				let strengGramInp = document.getElementById("strengGram");
+				let dreamInp = document.getElementById("dream");
+				let dreamCheckInp = document.getElementById("dreamCheck");
+				let rageInp = document.getElementById("rage");
+				let fiveSelfInp = document.getElementById("fiveSelf");
+				let totalDiv = document.getElementById("total");
+				let deepenInp = document.getElementById("deepen");
+
+				function cump() {
+					let baseInpValue = Number(baseInp.value);
+					let ignoreInpValue = Number(ignoreInp.value);
+					let strengManaInpValue = Number(strengManaInp.value);
+					let fiveElementsInpValue = Number(fiveElementsInp.value);
+					let strengGramInpValue = Number(strengGramInp.value);
+					let fiveSelfValue = Number(fiveSelf.value);
+					let dreamInpValue = Number(dreamInp.value);
+
+					//基础
+					let a = baseInpValue * (1 + ignoreInpValue * 0.03);
+					console.log(a);
+					//五行相克
+					let b = a * (1 + (((fiveSelfValue / 100) * fiveElementsInpValue) / 100) * 0.4);
+					//强力克
+					let c = b * (1 + ((strengGramInpValue / 100) * fiveElementsInpValue) / 100);
+					//强法
+					let d = c * (1 + strengManaInpValue / 100);
+					//残梦
+					let e =
+						dreamInpValue *
+						40 *
+						(1 + ((1 * fiveElementsInpValue) / 100) * 0.4) *
+						(1 + ((strengGramInpValue / 100) * fiveElementsInpValue) / 100);
+
+					//狂暴
+					let total = 0;
+					if (dreamCheckInp.checked && rageInp.checked) {
+						total = 1.5 * d + e;
+					} else if (dreamCheckInp.checked) {
+						total = d + e;
+					} else if (rageInp.checked) {
+						total = 1.5 * d;
+					} else {
+						total = d;
+					}
+					totalDiv.innerText = ~~(total + total * (Number(deepenInp.value) / 100));
+				}
+				cump();
+				let arr = [
+					baseInp,
+					ignoreInp,
+					strengManaInp,
+					fiveElementsInp,
+					strengGramInp,
+					dreamInp,
+					fiveSelfInp,
+					totalDiv,
+					dreamCheckInp,
+					rageInp,
+					deepenInp,
+				];
+				arr.map(item => (item.oninput = () => cump()));
+			};
+		</script>
+	</body>
+</html>
