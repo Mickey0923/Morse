@@ -24,13 +24,15 @@
         }
 
         .content {
-            overflow: scroll;
-            width: 1200px;
+            /* overflow: scroll;
+            width: 1200px; */
         }
 
         table {
             border-collapse: collapse;
             table-layout: fixed;
+            width: 1200px;
+            overflow: scroll;
         }
 
         th {
@@ -51,9 +53,9 @@
 
         #myTable tr>th:first-child,
         #myTable tr>td:first-child {
-            position: fixed;
+            position: sticky;
             left: 0;
-            z-index: 1;
+            z-index: 2;
             background-color: #e7eadacc;
             height: 30px;
             border-bottom: none;
@@ -63,7 +65,7 @@
         }
 
         #myTable tr:nth-of-type(2) td:first-child {
-            border-top: none;
+            /* border-top: none; */
             margin-top: 0;
         }
 
@@ -110,7 +112,7 @@
             <thead>
                 <tr id="th">
                     <th id="thAdd"></th>
-                    <th style="width:75pxlborder-left:none"></th>
+                    <!-- <th style="width:75pxlborder-left:none"></th> -->
                 </tr>
             </thead>
             <tr>
@@ -241,7 +243,7 @@
                 newCell1.textContent = item.name;
                 newCell2.style.width = '75px'
                 newRow.appendChild(newCell1);
-                newRow.appendChild(newCell2);
+                // newRow.appendChild(newCell2);
 
                 arrName.map(list => {
                     let newCell2 = document.createElement('td');
