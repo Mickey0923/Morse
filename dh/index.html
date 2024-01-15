@@ -30,20 +30,49 @@
 
         table {
             border-collapse: collapse;
+            table-layout: fixed;
         }
 
         th {
             border-color: #666;
             text-align: center;
-            height: 30px;
+            height: 40px;
             cursor: pointer;
             user-select: none;
+            position: sticky;
+            z-index: 2;
         }
 
         td {
             border-color: #666;
             width: 75px;
             text-align: center;
+        }
+
+        #myTable tr>th:first-child,
+        #myTable tr>td:first-child {
+            position: fixed;
+            left: 0;
+            z-index: 1;
+            background-color: #e7eadacc;
+            height: 30px;
+            border-bottom: none;
+            border-right: 1px solid #666;
+            width: 76px;
+            margin-top: -1px;
+        }
+
+        #myTable tr:nth-of-type(2) td:first-child {
+            border-top: none;
+            margin-top: 0;
+        }
+
+        #myTable #thAdd {
+            height: 40px;
+        }
+
+        #myTable tr:last-child td:first-child {
+            border-bottom: 1px solid #666;
         }
 
         input {
@@ -78,9 +107,12 @@
 <body>
     <div class="content">
         <table border="1" id="myTable">
-            <tr id="th">
-                <th id="thAdd"></th>
-            </tr>
+            <thead>
+                <tr id="th">
+                    <th id="thAdd"></th>
+                    <th style="width:75pxlborder-left:none"></th>
+                </tr>
+            </thead>
             <tr>
                 <!-- <td>1</td>
                 <td><input type="checkbox" name="sd" id=""></td>
@@ -205,8 +237,11 @@
                 const newRow = document.createElement('tr');
                 // 添加内容到新的 tr 元素
                 const newCell1 = document.createElement('td');
+                const newCell2 = document.createElement('td');
                 newCell1.textContent = item.name;
+                newCell2.style.width = '104px'
                 newRow.appendChild(newCell1);
+                newRow.appendChild(newCell2);
 
                 arrName.map(list => {
                     let newCell2 = document.createElement('td');
