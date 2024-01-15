@@ -1,0 +1,262 @@
+<!--
+ * @Description  :
+ * @Version      : 1.0
+ * @Author       : Mickey
+ * @Date         : 2024-01-12 16:16:04
+ * @LastEditors  : Mickey
+ * @LastEditTime : 2024-01-12 16:20:42
+ * @FilePath     : \\react-threec:\\Users\\Thinkpad\\Desktop\\新建冥.html
+ * Copyright (C) 2024 Mickey. All rights reserved.
+-->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        table {
+            border-collapse: collapse;
+        }
+
+        th {
+            border-color: #666;
+            text-align: center;
+            height: 30px;
+            cursor: pointer;
+            user-select: none;
+        }
+
+        td {
+            border-color: #666;
+            width: 75px;
+            text-align: center;
+        }
+
+        input {
+            width: 70px;
+            height: 24px;
+            margin: 2px 0;
+            display: list-item;
+            cursor: pointer;
+        }
+
+        #total div {
+            color: #de420a;
+        }
+
+        .btn {
+            border: 1px solid #666;
+            padding: 6px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 20px 30px;
+            text-align: center;
+        }
+
+        .btn:hover {
+            background-color: #de420a;
+            border-color: #de420a;
+            color: #fff;
+        }
+    </style>
+</head>
+
+<body>
+    <div>
+
+        <table border="1" id="myTable">
+            <tr id="th">
+                <th id="thAdd"></th>
+            </tr>
+            <tr>
+                <!-- <td>1</td>
+                <td><input type="checkbox" name="sd" id=""></td>
+                <td><input type="checkbox" name="sd" id=""></td> -->
+            </tr>
+        </table>
+        <div id="total"></div>
+        <div class="btn">Clear</div>
+    </div>
+
+    <script>
+        const arr = [{
+            name: '速度',
+            value: 'sd'
+        }, {
+            name: '忽视仙法',
+            value: 'hsxf'
+        }, {
+            name: '忽视控制',
+            value: 'hskz'
+        }, {
+            name: '加强仙法',
+            value: 'jqxf'
+        }, {
+            name: '加强控制',
+            value: 'jqkz'
+        }, {
+            name: '法术命中',
+            value: 'fsmz'
+        }, {
+            name: '破防',
+            value: 'pf'
+        }, {
+            name: '攻击',
+            value: 'gj'
+        }, {
+            name: '幻影',
+            value: 'shjs'
+        }, {
+            name: '伤害加深',
+            value: 'shjs'
+        }, {
+            name: '抗控制',
+            value: 'kkz'
+        }, {
+            name: '饮血',
+            value: 'yx'
+        }, {
+            name: '天人五绝',
+            value: 'trwj'
+        }, {
+            name: '五雷轰顶',
+            value: 'wlhd'
+        }, {
+            name: '浩气凌霄',
+            value: 'hqlx'
+        }, {
+            name: '陌上开花',
+            value: 'mskh'
+        }, ]
+
+        const arrName = ['敏男龙', '力男龙', '女鬼', '低男人', '高男人', '力女龙', '愈女龙', '男鬼', '女人', '男仙', '低女仙', '高女仙', '老虎头', '逆天魔', '盘女魔']
+
+        window.onload = function() {
+            const table = document.getElementById('myTable');
+            const total = document.getElementById('total');
+            const thAdd = document.getElementById('thAdd');
+
+            const iL = '<i>（</i>'
+            const iR = '<i> ）</i>'
+
+            arrName.forEach(list => {
+                const newRow = document.getElementById('th');
+                const newCell1 = document.createElement('th');
+                newCell1.textContent = list;
+                newCell1.onclick = () => {
+                    const totalDiv_ = document.querySelectorAll('div[data="' + list + '"]')
+                    totalDiv_.forEach(item => {
+                        const getDataName = item.getAttribute('data')
+                        if (getDataName == list) {
+                            const id = item.getElementsByTagName('i')
+                            const vd = item.getElementsByTagName('div')[0]
+                            if (id && id.length != 0) {
+                                console.log(id)
+                                id[id.length - 1].insertAdjacentHTML('afterend', iL)
+                                vd.insertAdjacentHTML('beforeend', iR)
+                            } else {
+
+                                vd.insertAdjacentHTML('afterbegin', iL)
+                                vd.insertAdjacentHTML('beforeend', iR)
+                            }
+                        }
+                    })
+
+                }
+                newRow.appendChild(newCell1);
+
+                table.appendChild(newRow);
+
+                const div_ = document.createElement('div')
+                div_.style.display = 'flex';
+                div_.style.marginBottom = '5px'
+                div_.setAttribute('data', list);
+                const span1_ = document.createElement('span')
+                span1_.style.display = 'block';
+                span1_.style.width = '80px';
+                span1_.textContent = list;
+                const span2_ = document.createElement('span')
+                span2_.textContent = "："
+                const div2_ = document.createElement('div')
+                total.appendChild(div_).appendChild(span1_);
+                div_.appendChild(span2_);
+                div_.appendChild(div2_);
+
+            })
+
+
+
+            arr.forEach(item => {
+                const newRow = document.createElement('tr');
+                // 添加内容到新的 tr 元素
+                const newCell1 = document.createElement('td');
+                newCell1.textContent = item.name;
+                newRow.appendChild(newCell1);
+
+                arrName.map(list => {
+                    let newCell2 = document.createElement('td');
+                    const check = document.createElement('input')
+                    check.type = 'checkbox'
+                    check.name = item.value
+                    check.setAttribute('data', list)
+                    check.onclick = (e) => {
+                        const totalDiv_ = document.querySelectorAll('div[data="' + list + '"]');
+                        totalDiv_.forEach(v => {
+                            const getDataName = v.getAttribute('data')
+                            if (getDataName == list && check.checked) {
+                                const te = document.createElement('b')
+                                te.style.marginLeft = '10px'
+                                te.textContent = item.name
+                                te.setAttribute('data', item.name)
+                                v.getElementsByTagName('div')[0].appendChild(te)
+                            } else {
+                                const te = document.querySelector('b[data="' + item.name + '"]')
+                                const teParent = te.parentNode
+                                teParent.removeChild(te)
+                            }
+                        })
+                    }
+                    newCell2.appendChild(check)
+
+                    newRow.appendChild(newCell2);
+                })
+
+                table.appendChild(newRow);
+            })
+
+
+            const ClearBtn = document.querySelector('.btn');
+            const checkbox = document.querySelectorAll('input[type="checkbox"]');
+
+            ClearBtn.onclick = function() {
+                checkbox.forEach(item => {
+                    item.checked = false;
+
+                })
+                const b = total.querySelectorAll('b')
+                const i_ = total.querySelectorAll('i')
+                for (let i = 0; i < b.length; i++) {
+                    const parent = b[i].parentNode
+                    parent.removeChild(b[i])
+                }
+                for (let i = 0; i < i_.length; i++) {
+                    const parent = i_[i].parentNode
+                    parent.removeChild(i_[i])
+                }
+            }
+
+
+        }
+    </script>
+</body>
+
+</html>
