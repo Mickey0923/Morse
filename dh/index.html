@@ -169,8 +169,10 @@
                                     vd.insertAdjacentHTML('beforeend', iR)
                                 }
                             } else {
-                                vd.insertAdjacentHTML('afterbegin', iL)
-                                vd.insertAdjacentHTML('beforeend', iR)
+                                if (vd.children.length != 0) {
+                                    vd.insertAdjacentHTML('afterbegin', iL)
+                                    vd.insertAdjacentHTML('beforeend', iR)
+                                }
                             }
                         }
                     })
