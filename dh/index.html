@@ -150,7 +150,7 @@
             const thAdd = document.getElementById('thAdd');
 
             const iL = '<i>（</i>'
-            const iR = '<i> ）</i>'
+            const iR = '<i data="last"> ）</i>'
 
             arrName.forEach(list => {
                 const newRow = document.getElementById('th');
@@ -164,11 +164,11 @@
                             const id = item.getElementsByTagName('i')
                             const vd = item.getElementsByTagName('div')[0]
                             if (id && id.length != 0) {
-                                console.log(id)
-                                id[id.length - 1].insertAdjacentHTML('afterend', iL)
-                                vd.insertAdjacentHTML('beforeend', iR)
+                                if (id[id.length - 1].nextSibling != null) {
+                                    id[id.length - 1].insertAdjacentHTML('afterend', iL)
+                                    vd.insertAdjacentHTML('beforeend', iR)
+                                }
                             } else {
-
                                 vd.insertAdjacentHTML('afterbegin', iL)
                                 vd.insertAdjacentHTML('beforeend', iR)
                             }
@@ -223,9 +223,26 @@
                                 te.setAttribute('data', item.name)
                                 v.getElementsByTagName('div')[0].appendChild(te)
                             } else {
+                                const id = v.getElementsByTagName('i')
                                 const te = document.querySelector('b[data="' + item.name + '"]')
-                                const teParent = te.parentNode
-                                teParent.removeChild(te)
+                                const parent = te.parentNode;
+
+                                if (id && id.length != 0) {
+                                    for (let i = 0; i < id.length; i++) {
+                                        if (id[i].getAttribute('data') == 'last') {
+                                            const twoPrev = id[i].previousSibling.previousSibling;
+                                            if (twoPrev.tagName == 'I') {
+                                                // parent.removeChild(te)
+                                                parent.removeChild(id[i])
+                                                parent.removeChild(twoPrev)
+                                            }
+                                        } else {
+
+                                        }
+                                    }
+                                }
+                                parent.removeChild(te)
+
                             }
                         })
                     }
