@@ -4,8 +4,8 @@
  * @Author       : Mickey
  * @Date         : 2024-01-12 16:16:04
  * @LastEditors  : Mickey
- * @LastEditTime : 2024-01-12 16:20:42
- * @FilePath     : \\react-threec:\\Users\\Thinkpad\\Desktop\\新建冥.html
+ * @LastEditTime : 2024-01-16 14:14:25
+ * @FilePath     : \\react-threed:\\Mickeys\\MY_Github\\dh\\index.html
  * Copyright (C) 2024 Mickey. All rights reserved.
 -->
 <!DOCTYPE html>
@@ -83,6 +83,15 @@
             margin: 2px 0;
             display: list-item;
             cursor: pointer;
+            position: relative;
+        }
+
+        input:hover:after {
+            content: attr(data-value);
+            position: absolute;
+            left: 0px;
+            margin: auto;
+            color: #de420a;
         }
 
         #total div {
@@ -155,6 +164,9 @@
             name: '攻击',
             value: 'gj'
         }, {
+            name: '气血',
+            value: 'qx'
+        }, {
             name: '幻影',
             value: 'shjs'
         }, {
@@ -166,6 +178,9 @@
         }, {
             name: '饮血',
             value: 'yx'
+        }, {
+            name: '强力克',
+            value: 'qlk'
         }, {
             name: '天人五绝',
             value: 'trwj'
@@ -180,7 +195,7 @@
             value: 'mskh'
         }, ]
 
-        const arrName = ['敏男龙', '力男龙', '女鬼', '低男人', '高男人', '力女龙', '愈女龙', '男鬼', '女人', '男仙', '低女仙', '高女仙', '老虎头', '逆天魔', '盘女魔']
+        const arrName = ['敏男龙', '力男龙', '女鬼', '老虎头', '低男人', '高男人', '力女龙', '愈女龙', '男鬼', '女人', '男仙', '低女仙', '盘女魔', '高女仙', '逆天魔', ]
 
         window.onload = function() {
             const table = document.getElementById('myTable');
@@ -255,6 +270,7 @@
                     check.type = 'checkbox'
                     check.name = item.value
                     check.setAttribute('data', list)
+                    check.setAttribute('data-value', item.name)
                     check.onclick = (e) => {
                         const totalDiv_ = document.querySelectorAll('div[data="' + list + '"]');
                         totalDiv_.forEach(v => {
